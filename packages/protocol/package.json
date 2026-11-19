@@ -1,0 +1,21 @@
+{
+  "name": "@jugargta/protocol",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Frame binario de 16 bytes para inputs de mando (web <-> bridge)",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./test-vectors.json": "./test-vectors.json"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "@types/node": "^22.10.0"
+  }
+}

@@ -1,0 +1,58 @@
+# Fase 2 — servidor de video en un VPS con IP pública (Linux).
+#   OBS (PC con la consola) --WHIP--> MediaMTX --WHEP--> navegador del jugador activo
+#   coturn: relay TURN para jugadores detrás de NAT simétrico (redes móviles).
+#   Caddy: HTTPS automático (los navegadores exigen https para WHEP desde una web https).
+#
+# Uso:
+#   cp .env.example .env   # completar
+#   docker compose up -d
+#
+# network_mode: host simplifica WebRTC/TURN (rangos UDP) y evita NAT de Docker.
+services:
+  mediamtx:
+    image: bluenviron/mediamtx:1.21.4
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./mediamtx.yml:/mediamtx.yml:ro
+    environment:
+      # Cualquier clave de mediamtx.yml se puede sobrescribir con MTX_<CLAVE>.
+      MTX_AUTHHTTPADDRESS: ${APP_URL}/api/stream/auth
+      MTX_WEBRTCADDITIONALHOSTS: ${PUBLIC_IP}
+
+  coturn:
+    image: coturn/coturn:4.19.2
+    restart: unless-stopped
+    network_mode: host
+    command:
+      - -n
+      - --log-file=stdout
+      - --listening-port=3478
+      - --tls-listening-port=5349
+      - --min-port=49160
+      - --max-port=49200
+      - --realm=${TURN_REALM}
+      - --external-ip=${PUBLIC_IP}
+      - --use-auth-secret
+      - --static-auth-secret=${TURN_STATIC_AUTH_SECRET}
+      - --fingerprint
+      - --no-cli
+      - --no-multicast-peers
+      - --denied-peer-ip=10.0.0.0-10.255.255.255
+      - --denied-peer-ip=172.16.0.0-172.31.255.255
+      - --denied-peer-ip=192.168.0.0-192.168.255.255
+      - --total-quota=100
+      - --user-quota=4
+
+  caddy:
+    image: caddy:2.11.9-alpine
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    environment:
+      STREAM_DOMAIN: ${STREAM_DOMAIN}
+
+volumes:
+  caddy_data:

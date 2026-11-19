@@ -1,0 +1,2 @@
+websockets>=13,<18
+vgamepad>=0.1.0; sys_platform == "win32"

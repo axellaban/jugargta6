@@ -1,0 +1,22 @@
+{
+  "name": "jugargta6",
+  "private": true,
+  "description": "Plataforma de juego comunitario por turnos en la nube (monorepo)",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @jugargta/web",
+    "build": "npm run build -w @jugargta/web",
+    "start": "npm run start -w @jugargta/web",
+    "lint": "npm run lint -w @jugargta/web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test:sql": "bash supabase/sql-tests/run.sh",
+    "test:bridge": "cd bridge && python3 -m pytest -q"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}

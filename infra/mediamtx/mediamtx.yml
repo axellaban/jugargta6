@@ -1,0 +1,46 @@
+# MediaMTX — WHIP (publicación desde OBS) / WHEP (lectura del jugador activo).
+# Referencia completa: https://github.com/bluenviron/mediamtx/blob/main/mediamtx.yml
+logLevel: info
+
+# --- Autenticación ------------------------------------------------------------
+# Cada publish/read se valida contra la web (apps/web/src/app/api/stream/auth).
+#   publish → token = STREAM_PUBLISH_SECRET (el que configurás en OBS como Bearer token)
+#   read    → token firmado (aud=stream) que /api/session/credentials emite solo al
+#             jugador con el turno activo; HLS público opcional (STREAM_PUBLIC_HLS=1).
+authMethod: http
+authHTTPAddress: http://127.0.0.1:3000/api/stream/auth   # se sobrescribe con MTX_AUTHHTTPADDRESS
+authHTTPExclude:
+  - action: api
+  - action: metrics
+  - action: pprof
+
+api: false
+metrics: false
+pprof: false
+playback: false
+
+# --- Protocolos ---------------------------------------------------------------
+rtsp: false
+rtmp: false
+srt: false
+
+hls: true
+hlsAddress: 127.0.0.1:8888          # detrás de Caddy
+hlsVariant: lowLatency
+hlsAlwaysRemux: false
+hlsSegmentDuration: 1s
+hlsPartDuration: 200ms
+
+webrtc: true
+webrtcAddress: 127.0.0.1:8889       # señalización HTTP (WHIP/WHEP) detrás de Caddy
+webrtcLocalUDPAddress: :8189        # media UDP: abrir en el firewall
+webrtcLocalTCPAddress: :8189        # fallback TCP para redes que bloquean UDP
+webrtcIPsFromInterfaces: true
+webrtcAdditionalHosts: []           # se sobrescribe con MTX_WEBRTCADDITIONALHOSTS=<IP pública>
+webrtcICEServers2: []               # el navegador recibe TURN efímero desde la web
+
+# --- Paths --------------------------------------------------------------------
+paths:
+  console1:
+    source: publisher
+    overridePublisher: true

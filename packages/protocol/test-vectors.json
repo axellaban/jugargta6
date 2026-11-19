@@ -1,0 +1,122 @@
+{
+  "protocol_version": 1,
+  "frame_size": 16,
+  "valid": [
+    {
+      "name": "neutral",
+      "type": "state",
+      "seq": 0,
+      "state": {
+        "buttons": 0,
+        "lt": 0,
+        "rt": 0,
+        "lx": 0,
+        "ly": 0,
+        "rx": 0,
+        "ry": 0
+      },
+      "hex": "01010000000000000000000000000000"
+    },
+    {
+      "name": "A + RT + left stick up-right",
+      "type": "state",
+      "seq": 1,
+      "state": {
+        "buttons": 1,
+        "lt": 0,
+        "rt": 255,
+        "lx": 32767,
+        "ly": 32767,
+        "rx": 0,
+        "ry": 0
+      },
+      "hex": "01010100010000ffff7fff7f00000000"
+    },
+    {
+      "name": "all buttons, min axes",
+      "type": "state",
+      "seq": 65535,
+      "state": {
+        "buttons": 65535,
+        "lt": 255,
+        "rt": 255,
+        "lx": -32768,
+        "ly": -32768,
+        "rx": -32768,
+        "ry": -32768
+      },
+      "hex": "0101ffffffffffff0080008000800080"
+    },
+    {
+      "name": "guide + dpad left, mixed axes",
+      "type": "state",
+      "seq": 4660,
+      "state": {
+        "buttons": 20480,
+        "lt": 128,
+        "rt": 1,
+        "lx": -1,
+        "ly": 1,
+        "rx": 12345,
+        "ry": -12345
+      },
+      "hex": "0101341200508001ffff01003930c7cf"
+    },
+    {
+      "name": "ping",
+      "type": "ping",
+      "seq": 7,
+      "timestamp": 4294967295,
+      "hex": "01020700ffffffff0000000000000000"
+    },
+    {
+      "name": "pong",
+      "type": "pong",
+      "seq": 8,
+      "timestamp": 123456789,
+      "hex": "0103080015cd5b070000000000000000"
+    }
+  ],
+  "invalid": [
+    {
+      "name": "too short",
+      "hex": "0101000000000000000000000000"
+    },
+    {
+      "name": "bad version",
+      "hex": "02010000000000000000000000000000"
+    },
+    {
+      "name": "unknown type",
+      "hex": "01090000000000000000000000000000"
+    },
+    {
+      "name": "too long",
+      "hex": "0101000000000000000000000000000000"
+    }
+  ],
+  "tokens": [
+    {
+      "secret": "test-secret-0123456789-abcdefghijklmnop",
+      "payload": {
+        "sub": "5b0c7f0e-8f4a-4c55-9d3e-1a2b3c4d5e6f",
+        "turn": 42,
+        "aud": "bridge",
+        "iat": 1790000000,
+        "exp": 1790000060
+      },
+      "token": "eyJzdWIiOiI1YjBjN2YwZS04ZjRhLTRjNTUtOWQzZS0xYTJiM2M0ZDVlNmYiLCJ0dXJuIjo0MiwiYXVkIjoiYnJpZGdlIiwiaWF0IjoxNzkwMDAwMDAwLCJleHAiOjE3OTAwMDAwNjB9.OuDRi5hNolulT2LM3e_8K1OZ-3JvaNbX8nvgoyS1MOE"
+    },
+    {
+      "secret": "test-secret-0123456789-abcdefghijklmnop",
+      "payload": {
+        "sub": "admin",
+        "turn": -1,
+        "aud": "bridge-admin",
+        "iat": 1790000000,
+        "exp": 1790000030
+      },
+      "token": "eyJzdWIiOiJhZG1pbiIsInR1cm4iOi0xLCJhdWQiOiJicmlkZ2UtYWRtaW4iLCJpYXQiOjE3OTAwMDAwMDAsImV4cCI6MTc5MDAwMDAzMH0.40J4REm2RQXwWVkHnEE9L7U94WVz4ga1nDujX63ttJA"
+    }
+  ]
+}

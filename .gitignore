@@ -1,0 +1,22 @@
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+.vercel
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+# Supabase local
+supabase/.branches
+supabase/.temp
+# Infra
+infra/mediamtx/.env
+.DS_Store
+
+# Next.js (lo regenera `next dev/build/typegen`)
+next-env.d.ts
